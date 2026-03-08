@@ -58,7 +58,7 @@ function Home() {
       title: 'Deprecate GIFs for Animated Content',
       description: 'Test video vs GIF for animations',
       path: '/deprecate-gifs',
-      difficulty: 'Easy'
+      difficulty: 'Info Only'
     },
     {
       id: 'remove-unused-css',
@@ -86,7 +86,7 @@ function Home() {
       title: 'Avoid Tracking Unnecessary Data',
       description: 'Test minimal vs excessive analytics',
       path: '/avoid-unnecessary-tracking',
-      difficulty: 'Easy'
+      difficulty: 'Info Only'
     }
   ];
 
