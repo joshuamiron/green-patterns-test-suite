@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import TestContainer from '../components/TestContainer.jsx';
 import useLocalStorage from '../hooks/useLocalStorage.js';
+import usePerformanceLogging from '../hooks/usePerformanceLogging.js';
 import './TestPage.css';
 
 function AvoidExcessiveDOM() {
   const [optimized, setOptimized] = useLocalStorage('avoid-excessive-dom-optimized', false);
+  
+  // Log performance metrics after 5 seconds
+  usePerformanceLogging(optimized, 'AvoidExcessiveDOM', 5000);
   const [metrics, setMetrics] = useState({ 'DOM Nodes': 0, 'Depth': 0, 'Memory': 'N/A' });
 
   useEffect(() => {
