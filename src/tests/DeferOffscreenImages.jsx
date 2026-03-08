@@ -1,14 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import TestContainer from '../components/TestContainer.jsx';
 import useLocalStorage from '../hooks/useLocalStorage.js';
-import usePerformanceLogging from '../hooks/usePerformanceLogging.js';
 import './TestPage.css';
 
 function DeferOffscreenImages() {
   const [optimized, setOptimized] = useLocalStorage('defer-offscreen-images-optimized', false);
-  
-  // Log performance metrics after 5 seconds
-  usePerformanceLogging(optimized, 'DeferOffscreenImages', 5000);
   const [loadedImages, setLoadedImages] = useState(new Set());
   const [metrics, setMetrics] = useState({
     'Images Loaded': 0,
