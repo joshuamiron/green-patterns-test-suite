@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TestContainer from '../components/TestContainer.jsx';
 import useLocalStorage from '../hooks/useLocalStorage.js';
 import usePerformanceLogging from '../hooks/usePerformanceLogging.js';
@@ -9,11 +9,22 @@ function AvoidExcessiveDOM() {
   
   // Log performance metrics after 5 seconds
   usePerformanceLogging(optimized, 'AvoidExcessiveDOM', 5000);
+  const [metrics, setMetrics] = useState({ 'DOM Nodes': 0, 'Depth': 0, 'Memory': 'N/A' });
 
-  // Hardcoded metrics (no DOM querying during page load)
-  const metrics = optimized 
-    ? { 'DOM Nodes': '~1,100', 'Depth': '2-3 levels', 'Memory': 'Lower' }
-    : { 'DOM Nodes': '~2,300', 'Depth': '7+ levels', 'Memory': 'Higher' };
+  useEffect(() => {
+    const nodes = document.querySelectorAll('*').length;
+    const depth = getMaxDepth(document.body);
+    setMetrics({
+      'DOM Nodes': nodes,
+      'Depth': depth,
+      'Memory': performance.memory ? `${(performance.memory.usedJSHeapSize / 1048576).toFixed(2)} MB` : 'N/A'
+    });
+  }, [optimized]);
+
+  const getMaxDepth = (node) => {
+    if (!node.children.length) return 1;
+    return 1 + Math.max(...Array.from(node.children).map(getMaxDepth));
+  };
 
   const generateBloatedDOM = () => {
     const items = [];
@@ -103,7 +114,7 @@ function AvoidExcessiveDOM() {
         <ul>
           <li><strong>Performance Tab:</strong> Record rendering. Optimized version should have faster layout times.</li>
           <li><strong>Memory Profiler:</strong> Take heap snapshots with optimization ON vs OFF.</li>
-          <li><strong>Console:</strong> Run `document.querySelectorAll('*').length` to count nodes (after page loads).</li>
+          <li><strong>Console:</strong> Run `document.querySelectorAll('*').length` to count nodes.</li>
         </ul>
       </div>
     </TestContainer>
