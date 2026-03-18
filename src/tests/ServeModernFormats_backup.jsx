@@ -1,36 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import TestContainer from '../components/TestContainer.jsx';
 import useLocalStorage from '../hooks/useLocalStorage.js';
-import usePerformanceLogging from '../hooks/usePerformanceLogging.js';
 import './TestPage.css';
 
 function ServeModernFormats() {
   const [optimized, setOptimized] = useLocalStorage('serve-modern-formats-optimized', false);
-  
-  // Log performance metrics after 5 seconds
-  usePerformanceLogging(optimized, 'ServeModernFormats', 5000);
-  
-  // Generate random image IDs on component mount to prevent caching
-  // Use timestamp + random to ensure fresh images on each page load
-  const [imageIds] = useState(() => {
-    const timestamp = Date.now();
-    const randomOffset = Math.floor(Math.random() * 900); // Random 0-899
-    return Array.from({ length: 6 }, (_, i) => {
-      // Use random IDs between 1-1000 from Picsum
-      return (randomOffset + i) % 1000 + 1;
-    });
-  });
 
-  const images = imageIds.map((id, i) => {
-    // Add cache-busting query parameter using timestamp
-    const cacheBuster = Date.now();
+  const images = Array.from({ length: 6 }, (_, i) => {
+    const id = i + 100;
     return {
-      id: `${id}-${i}`,
+      id,
       // Modern format (WebP) vs legacy (JPEG)
-      // Cache-buster ensures fresh images on every page load
       url: optimized
-        ? `https://picsum.photos/id/${id}/400/300.webp?t=${cacheBuster}`
-        : `https://picsum.photos/id/${id}/400/300.jpg?t=${cacheBuster}`,
+        ? `https://picsum.photos/id/${id}/400/300.webp`
+        : `https://picsum.photos/id/${id}/400/300.jpg`,
       format: optimized ? 'WebP' : 'JPEG'
     };
   });
@@ -44,42 +27,28 @@ function ServeModernFormats() {
   return (
     <TestContainer
       title="Serve Images in Modern Formats"
-      description="Compare modern WebP format vs legacy JPEG formats for image delivery."
+      description="Compare modern WebP format vs legacy JPEG/PNG formats for image delivery."
       patternUrl="https://patterns.greensoftware.foundation/catalog/web/serve-images-in-modern-formats"
       optimized={optimized}
       setOptimized={setOptimized}
       metrics={{
         'Format': optimized ? 'WebP' : 'JPEG',
         'Est. Total Size': `~${totalSize}KB`,
-        'Savings': optimized ? `~${savings}%` : '0%',
-        'Images': '6 × 400×300px'
+        'Savings': optimized ? `~${savings}%` : '0%'
       }}
     >
       <div className="test-explanation">
         <h3>What's Being Tested</h3>
         <div className="explanation-grid">
           <div className="explanation-item">
-            <strong>❌ Legacy Format (JPEG):</strong>
-            <p>Older format with larger file sizes (~50KB per image). Widely supported but inefficient.</p>
+            <strong>❌ Legacy Formats (JPEG/PNG):</strong>
+            <p>Older formats with larger file sizes. Widely supported but inefficient for web delivery.</p>
           </div>
           <div className="explanation-item">
-            <strong>✅ Modern Format (WebP):</strong>
-            <p>30-50% smaller files (~25KB per image) with same quality. Faster loading, less bandwidth.</p>
+            <strong>✅ Modern Formats (WebP/AVIF):</strong>
+            <p>30-50% smaller files with same quality. Faster loading, less bandwidth, better performance.</p>
           </div>
         </div>
-      </div>
-
-      <div style={{ marginBottom: '20px', padding: '15px', background: '#e3f2fd', borderRadius: '8px', border: '2px solid #2196f3' }}>
-        <h4>🔄 Fresh Images on Every Load</h4>
-        <p style={{ margin: '8px 0', fontSize: '0.9rem' }}>
-          Each page refresh loads NEW random images from Picsum (IDs: {imageIds.join(', ')})
-        </p>
-        <p style={{ margin: '8px 0', fontSize: '0.9rem' }}>
-          Cache-busting timestamp: {Date.now()}
-        </p>
-        <p style={{ margin: '8px 0', fontSize: '0.85rem', color: '#666' }}>
-          This ensures accurate network measurements without cache interference.
-        </p>
       </div>
 
       <div style={{ marginBottom: '30px', padding: '20px', background: '#f8f9fa', borderRadius: '8px' }}>
@@ -96,22 +65,27 @@ function ServeModernFormats() {
             <p style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#27ae60' }}>~25KB</p>
             <p style={{ fontSize: '0.85rem', color: '#27ae60', marginTop: '5px' }}>✅ 50% smaller!</p>
           </div>
+          <div style={{ padding: '15px', background: 'white', borderRadius: '6px' }}>
+            <strong>AVIF</strong>
+            <p style={{ color: '#666', fontSize: '0.9rem', margin: '8px 0' }}>Newest format</p>
+            <p style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#27ae60' }}>~20KB</p>
+            <p style={{ fontSize: '0.85rem', color: '#27ae60', marginTop: '5px' }}>✅ 60% smaller!</p>
+          </div>
         </div>
       </div>
 
       <div className="image-grid-container">
         <h4>Image Gallery ({optimized ? 'WebP' : 'JPEG'} format)</h4>
         <p style={{ color: '#666', marginBottom: '15px' }}>
-          Currently loading: <strong>{images[0].format}</strong> format (6 images)
+          Currently loading: <strong>{images[0].format}</strong> format
         </p>
         <div className="image-grid">
           {images.map((img) => (
             <div key={img.id} className="image-item">
               <img
                 src={img.url}
-                alt={`Demo image`}
+                alt={`Demo ${img.id}`}
                 className="test-image"
-                loading="eager"
               />
               <span className="image-label">{img.format}</span>
             </div>
@@ -122,9 +96,9 @@ function ServeModernFormats() {
       <div className="devtools-tips">
         <h4>💡 What to Check</h4>
         <ul>
-          <li><strong>Network Tab:</strong> Look at the Size column - WebP images should be ~50% smaller</li>
-          <li><strong>Response Headers:</strong> Check Content-Type (image/webp vs image/jpeg)</li>
-          <li><strong>Total Transfer:</strong> Should see ~150KB reduction (300KB JPEG → 150KB WebP)</li>
+          <li><strong>Network Tab:</strong> Look at the Size column - WebP images are noticeably smaller</li>
+          <li><strong>Response Headers:</strong> Check Content-Type header (image/webp vs image/jpeg)</li>
+          <li><strong>Total Transfer:</strong> See ~50% reduction in total data transferred</li>
           <li><strong>Quality:</strong> WebP maintains same visual quality at smaller size</li>
         </ul>
       </div>

@@ -1,36 +1,17 @@
-import { useState, lazy, Suspense } from 'react';
+import { useState, useEffect } from 'react';
 import TestContainer from '../components/TestContainer.jsx';
 import useLocalStorage from '../hooks/useLocalStorage.js';
+import usePerformanceLogging from '../hooks/usePerformanceLogging.js';
 import './TestPage.css';
-
-// Lazy-loaded component (demonstrates code splitting)
-const LazyLoadedChart = lazy(() => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve({
-        default: () => (
-          <div style={{ padding: '20px', background: '#e8f5e9', borderRadius: '8px', border: '2px solid #27ae60' }}>
-            <h4>✅ Lazy-Loaded Component (Code Split)</h4>
-            <p>This component was loaded in a separate chunk only when you clicked the button!</p>
-            <p>Check the Network tab to see the new chunk file loaded.</p>
-            <div style={{ marginTop: '15px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px' }}>
-              {Array.from({ length: 12 }, (_, i) => (
-                <div key={i} style={{ padding: '15px', background: '#fff', borderRadius: '4px', textAlign: 'center' }}>
-                  📊 {i + 1}
-                </div>
-              ))}
-            </div>
-          </div>
-        )
-      });
-    }, 500); // Simulate loading time
-  });
-});
 
 function MinimizeMainThreadWork() {
   const [optimized, setOptimized] = useLocalStorage('minimize-main-thread-work-optimized', false);
-  const [showLazy, setShowLazy] = useState(false);
+  
+  // Log performance metrics after 5 seconds
+  usePerformanceLogging(optimized, 'MinimizeMainThreadWork', 5000);
+  
   const [taskResult, setTaskResult] = useState(null);
+  const [autoRunComplete, setAutoRunComplete] = useState(false);
 
   const runTask = () => {
     const start = performance.now();
@@ -47,80 +28,78 @@ function MinimizeMainThreadWork() {
     const duration = performance.now() - start;
     setTaskResult({
       duration: duration.toFixed(2),
-      iterations: iterations.toLocaleString()
+      iterations: iterations.toLocaleString(),
+      result: result.toFixed(2)
     });
+    
+    return duration;
   };
+
+  // Auto-run the CPU task 2 seconds after page load for automated testing
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      console.log('🔄 Auto-running CPU task for measurement...');
+      const duration = runTask();
+      console.log(`✅ CPU task completed in ${duration.toFixed(2)}ms`);
+      setAutoRunComplete(true);
+    }, 2000); // Run at 2 seconds (well within the 5-second measurement window)
+    
+    return () => clearTimeout(timer);
+  }, [optimized]); // Re-run when optimization toggle changes
 
   return (
     <TestContainer
       title="Minimize Main Thread Work"
-      description="Compare code splitting and efficient execution vs monolithic bundles with heavy computations."
+      description="Compare optimized execution (fewer iterations) vs heavy computation that blocks the main thread."
       patternUrl="https://patterns.greensoftware.foundation/catalog/web/minimize-main-thread-work"
       optimized={optimized}
       setOptimized={setOptimized}
       metrics={taskResult ? {
         'Duration': `${taskResult.duration}ms`,
-        'Iterations': taskResult.iterations
-      } : {}}
+        'Iterations': taskResult.iterations,
+        'Auto-run': autoRunComplete ? 'Complete ✅' : 'Pending...'
+      } : { 'Status': 'Waiting for auto-run...' }}
     >
       <div className="test-explanation">
         <h3>What's Being Tested</h3>
         <div className="explanation-grid">
           <div className="explanation-item">
-            <strong>❌ Unoptimized:</strong>
-            <p>All code in one bundle, heavy tasks block the main thread, UI becomes unresponsive.</p>
+            <strong>❌ Unoptimized (10,000,000 iterations):</strong>
+            <p>Heavy computation blocks the main thread, causing UI freezes and high CPU usage.</p>
           </div>
           <div className="explanation-item">
-            <strong>✅ Optimized:</strong>
-            <p>Code splitting loads only what's needed, tasks are optimized, main thread stays responsive.</p>
+            <strong>✅ Optimized (100,000 iterations):</strong>
+            <p>Reduced workload keeps the main thread responsive and uses less CPU.</p>
           </div>
         </div>
       </div>
 
-      <div style={{ marginBottom: '30px' }}>
-        <h4>Code Splitting Demo</h4>
-        <button 
-          onClick={() => setShowLazy(!showLazy)}
-          style={{
-            padding: '12px 24px',
-            background: '#3498db',
-            color: 'white',
-            border: 'none',
-            borderRadius: '6px',
-            cursor: 'pointer',
-            fontSize: '16px'
-          }}
-        >
-          {showLazy ? 'Hide' : 'Load'} Component
-        </button>
-
-        <div style={{ marginTop: '15px' }}>
-          {showLazy && (
-            optimized ? (
-              <Suspense fallback={<div style={{ padding: '20px', background: '#f9f9f9', borderRadius: '8px' }}>⏳ Loading...</div>}>
-                <LazyLoadedChart />
-              </Suspense>
-            ) : (
-              <div style={{ padding: '20px', background: '#ffe6e6', borderRadius: '8px', border: '2px solid #e74c3c' }}>
-                <h4>❌ Eagerly Loaded Component</h4>
-                <p>This is in the main bundle, increasing initial load time.</p>
-                <div style={{ marginTop: '15px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px' }}>
-                  {Array.from({ length: 12 }, (_, i) => (
-                    <div key={i} style={{ padding: '15px', background: '#fff', borderRadius: '4px', textAlign: 'center' }}>
-                      📊 {i + 1}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )
-          )}
-        </div>
+      <div style={{ 
+        marginBottom: '30px',
+        padding: '20px',
+        background: autoRunComplete ? '#e8f5e9' : '#fff3cd',
+        borderRadius: '8px',
+        border: `2px solid ${autoRunComplete ? '#27ae60' : '#f39c12'}`
+      }}>
+        <h4>🤖 Automated Testing Mode</h4>
+        <p>
+          {autoRunComplete 
+            ? '✅ CPU task auto-ran at 2 seconds after page load'
+            : '⏳ CPU task will auto-run in 2 seconds...'}
+        </p>
+        {taskResult && (
+          <div style={{ marginTop: '15px' }}>
+            <p><strong>⏱️ Completed in {taskResult.duration}ms</strong></p>
+            <p>Iterations: {taskResult.iterations}</p>
+            <p>Mode: {optimized ? '✅ Optimized (100,000)' : '❌ Unoptimized (10,000,000)'}</p>
+          </div>
+        )}
       </div>
 
       <div style={{ marginBottom: '30px' }}>
-        <h4>Main Thread Work Demo</h4>
+        <h4>Manual Testing</h4>
         <p style={{ color: '#666', marginBottom: '15px' }}>
-          {optimized ? 'Optimized: 100,000 iterations' : 'Unoptimized: 10,000,000 iterations (100x more!)'}
+          You can also run the task manually:
         </p>
         <button 
           onClick={runTask}
@@ -134,29 +113,17 @@ function MinimizeMainThreadWork() {
             fontSize: '16px'
           }}
         >
-          Run CPU Task
+          Run CPU Task Manually
         </button>
-
-        {taskResult && (
-          <div style={{ 
-            marginTop: '15px',
-            padding: '20px', 
-            background: optimized ? '#e8f5e9' : '#fff3cd',
-            borderRadius: '8px'
-          }}>
-            <p><strong>⏱️ Completed in {taskResult.duration}ms</strong></p>
-            <p>Iterations: {taskResult.iterations}</p>
-            <p>{optimized ? '✅ Fast and responsive' : '⚠️ Slow - UI may have frozen'}</p>
-          </div>
-        )}
       </div>
 
       <div className="devtools-tips">
-        <h4>💡 What to Check</h4>
+        <h4>💡 For Powermetrics Testing</h4>
         <ul>
-          <li><strong>Network:</strong> See separate chunk load when optimization ON</li>
-          <li><strong>Performance:</strong> Record during CPU task - see the difference in task length</li>
-          <li><strong>Try clicking around:</strong> With optimization OFF, UI may freeze during the task</li>
+          <li><strong>Page loads:</strong> Task auto-runs at 2 seconds</li>
+          <li><strong>Measurement window:</strong> 5 seconds captures the full task execution</li>
+          <li><strong>Expected:</strong> Optimized should show significantly lower CPU usage</li>
+          <li><strong>Console:</strong> Check for auto-run confirmation messages</li>
         </ul>
       </div>
     </TestContainer>
