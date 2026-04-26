@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 import Home from './components/Home.jsx';
 import DeferOffscreenImages from './tests/DeferOffscreenImages.jsx';
+import DeferOffscreenImages_NoIntersectionObserver from './tests/DeferOffscreenImages_NoIntersectionObserver.jsx';
 import AvoidExcessiveDOM from './tests/AvoidExcessiveDOM.jsx';
 import KeepRequestCountsLow from './tests/KeepRequestCountsLow.jsx';
 import OptimizeImageSize from './tests/OptimizeImageSize.jsx';
@@ -38,6 +39,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/defer-offscreen-images" element={<DeferOffscreenImages />} />
+          <Route path="/defer-offscreen-images_no-intersection-observer" element={<DeferOffscreenImages_NoIntersectionObserver />} /> 
           <Route path="/avoid-excessive-dom" element={<AvoidExcessiveDOM />} />
           <Route path="/keep-request-counts-low" element={<KeepRequestCountsLow />} />
           <Route path="/optimize-image-size" element={<OptimizeImageSize />} />

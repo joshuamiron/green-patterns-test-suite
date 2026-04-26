@@ -12,6 +12,14 @@ function Home() {
       difficulty: 'Easy'
     },
     {
+      id: 'defer-offscreen-images_no-intersection-observer',
+      title: 'Defer Offscreen Images (No Intersection Observer)',
+      description: 'Test lazy loading without Intersection Observer support',
+      path: '/defer-offscreen-images_no-intersection-observer',
+      difficulty: 'Easy'
+
+    },
+    {
       id: 'optimize-image-size',
       title: 'Optimize Image Size',
       description: 'Test properly sized vs oversized images',

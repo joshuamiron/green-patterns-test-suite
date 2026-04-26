@@ -12,8 +12,8 @@ function AvoidExcessiveDOM() {
 
   // Hardcoded metrics (no DOM querying during page load)
   const metrics = optimized 
-    ? { 'DOM Nodes': '~1,100', 'Depth': '2-3 levels', 'Memory': 'Lower' }
-    : { 'DOM Nodes': '~2,300', 'Depth': '7+ levels', 'Memory': 'Higher' };
+    ? { 'DOM Nodes': '1,000', 'Depth': '3 levels', 'Memory': 'Lower' }
+    : { 'DOM Nodes': '2,200', 'Depth': '7 levels', 'Memory': 'Higher' };
 
   const generateBloatedDOM = () => {
     const items = [];
@@ -52,7 +52,7 @@ function AvoidExcessiveDOM() {
       </div>
     ));
   };
-
+  
   return (
     <TestContainer
       title="Avoid Excessive DOM Size"
