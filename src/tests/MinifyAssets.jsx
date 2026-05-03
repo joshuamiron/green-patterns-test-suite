@@ -1,63 +1,27 @@
-import { useState } from 'react';
 import './TestPage.css';
 
 /**
  * MinifyAssets Test Page
  * 
- * This page contains intentionally verbose, unminified code.
- * Test by running in dev mode vs production build.
+ * This page contains intentionally verbose, unminified code with:
+ * - Long variable names (generateSampleDataArray, sampleDataArray, itemIndex)
+ * - Extensive comments explaining each step
+ * - Lots of whitespace for readability
+ * - Descriptive property names (identifier, description, category, isActive, timestamp)
+ * 
+ * When built for production, Vite will minify all of this code.
  */
 function MinifyAssets() {
-  const [calculationResult, setCalculationResult] = useState(null);
-
-  /**
-   * Calculate statistics from a data array
-   * This demonstrates typical business logic with verbose variable names
-   */
-  function calculateArrayStatistics() {
-    const numberArray = [10, 25, 30, 45, 50, 65, 70, 85, 90];
-    
-    let totalSum = 0;
-    let maximumValue = numberArray[0];
-    let minimumValue = numberArray[0];
-    
-    for (let arrayIndex = 0; arrayIndex < numberArray.length; arrayIndex++) {
-      const currentValue = numberArray[arrayIndex];
-      
-      // Add to total
-      totalSum = totalSum + currentValue;
-      
-      // Check if this is the maximum
-      if (currentValue > maximumValue) {
-        maximumValue = currentValue;
-      }
-      
-      // Check if this is the minimum
-      if (currentValue < minimumValue) {
-        minimumValue = currentValue;
-      }
-    }
-    
-    const averageValue = totalSum / numberArray.length;
-    
-    const resultObject = {
-      sum: totalSum,
-      average: averageValue,
-      maximum: maximumValue,
-      minimum: minimumValue,
-      count: numberArray.length
-    };
-    
-    setCalculationResult(resultObject);
-  }
-
   /**
    * Generate sample data array with descriptive property names
+   * This function demonstrates typical business logic that will be minified
    */
   function generateSampleDataArray() {
     const sampleDataArray = [];
     
+    // Loop through and create 50 sample items
     for (let itemIndex = 0; itemIndex < 50; itemIndex++) {
+      // Create a sample item with descriptive property names
       const sampleItem = {
         identifier: itemIndex + 1,
         description: `Sample Item Number ${itemIndex + 1}`,
@@ -66,6 +30,7 @@ function MinifyAssets() {
         timestamp: new Date().toISOString()
       };
       
+      // Add the item to our array
       sampleDataArray.push(sampleItem);
     }
     
@@ -73,38 +38,52 @@ function MinifyAssets() {
   }
 
   /**
-   * Format a number as currency
-   * @param {number} numericValue - The value to format
-   * @returns {string} Formatted currency string
+   * Filter array to only include active items
+   * @param {Array} dataArray - The array to filter
+   * @returns {Array} Filtered array with only active items
    */
-  function formatAsCurrency(numericValue) {
-    const formattedString = '$' + numericValue.toFixed(2);
-    return formattedString;
+  function filterActiveItems(dataArray) {
+    const filteredArray = [];
+    
+    // Loop through all items
+    for (let arrayIndex = 0; arrayIndex < dataArray.length; arrayIndex++) {
+      const currentItem = dataArray[arrayIndex];
+      
+      // Check if the item is active
+      if (currentItem.isActive === true) {
+        filteredArray.push(currentItem);
+      }
+    }
+    
+    return filteredArray;
   }
 
   /**
-   * Check if a value is within a range
-   * @param {number} valueToCheck - The value to check
-   * @param {number} minimumBoundary - The minimum boundary
-   * @param {number} maximumBoundary - The maximum boundary
-   * @returns {boolean} Whether value is in range
+   * Format a date string in a human-readable way
+   * @param {string} isoDateString - ISO format date string
+   * @returns {string} Formatted date string
    */
-  function isValueInRange(valueToCheck, minimumBoundary, maximumBoundary) {
-    if (valueToCheck >= minimumBoundary && valueToCheck <= maximumBoundary) {
-      return true;
-    } else {
-      return false;
-    }
+  function formatDateString(isoDateString) {
+    const dateObject = new Date(isoDateString);
+    const formattedString = dateObject.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+    return formattedString;
   }
 
-  const sampleData = generateSampleDataArray();
+  // Generate our sample data
+  const allSampleData = generateSampleDataArray();
+  const activeItemsOnly = filterActiveItems(allSampleData);
 
   return (
     <div className="page-container">
       <div className="page-header">
         <h1 className="page-title">Minify Web Assets</h1>
         <p className="page-description">
-          This page contains verbose code. Compare bundle sizes in dev mode vs production build.
+          This page contains verbose code with long variable/function names, comments, and whitespace. 
+          Compare bundle sizes in dev mode vs production build.
         </p>
         <a 
           href="https://patterns.greensoftware.foundation/catalog/web/minify-web-assets"
@@ -138,6 +117,7 @@ function MinifyAssets() {
           font-size: 16px;
           color: #666;
           margin-bottom: 10px;
+          line-height: 1.6;
         }
         
         .pattern-link {
@@ -150,7 +130,7 @@ function MinifyAssets() {
           text-decoration: underline;
         }
         
-        .minify-instructions {
+        .instructions-box {
           background-color: #e3f2fd;
           padding: 25px;
           border-radius: 8px;
@@ -158,22 +138,35 @@ function MinifyAssets() {
           border: 2px solid #2196f3;
         }
         
-        .minify-instructions h3 {
+        .instructions-box h3 {
           margin-top: 0;
           color: #1976d2;
         }
         
-        .minify-instructions ol {
-          line-height: 2;
+        .instructions-box ol {
+          line-height: 2.2;
           margin: 15px 0;
+          padding-left: 25px;
         }
         
-        .minify-instructions code {
+        .instructions-box li {
+          margin-bottom: 10px;
+        }
+        
+        .instructions-box code {
           background-color: #263238;
           color: #aed581;
-          padding: 2px 8px;
+          padding: 3px 8px;
           border-radius: 3px;
           font-family: 'Courier New', monospace;
+          font-size: 14px;
+        }
+        
+        .file-highlight {
+          background-color: #fff3cd;
+          padding: 2px 6px;
+          border-radius: 3px;
+          font-weight: 600;
         }
         
         .explanation-section {
@@ -197,6 +190,7 @@ function MinifyAssets() {
         .explanation-item strong {
           display: block;
           margin-bottom: 10px;
+          font-size: 16px;
           color: #333;
         }
         
@@ -214,7 +208,7 @@ function MinifyAssets() {
           font-size: 13px;
         }
         
-        .demo-section {
+        .data-section {
           margin: 30px 0;
           padding: 25px;
           background-color: #ffffff;
@@ -222,86 +216,38 @@ function MinifyAssets() {
           border: 1px solid #dee2e6;
         }
         
-        .minify-button {
-          padding: 12px 24px;
-          background-color: #007bff;
-          color: white;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          font-size: 16px;
-          font-weight: 500;
-          transition: background-color 0.2s;
-        }
-        
-        .minify-button:hover {
-          background-color: #0056b3;
-        }
-        
-        .minify-result {
-          padding: 20px;
-          background-color: #d4edda;
-          border: 2px solid #28a745;
-          border-radius: 8px;
-          margin-top: 20px;
-        }
-        
-        .minify-result h4 {
+        .data-section h3 {
           margin-top: 0;
-          color: #155724;
+          color: #333;
         }
         
-        .result-grid {
+        .data-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-          gap: 15px;
-          margin-top: 15px;
-        }
-        
-        .result-item {
-          text-align: center;
-        }
-        
-        .result-label {
-          font-size: 12px;
-          color: #666;
-          text-transform: uppercase;
-          margin-bottom: 5px;
-        }
-        
-        .result-value {
-          font-size: 24px;
-          font-weight: bold;
-          color: #155724;
-        }
-        
-        .minify-data-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
           gap: 15px;
           margin-top: 20px;
         }
         
-        .minify-data-card {
+        .data-card {
           padding: 15px;
           background-color: #f8f9fa;
           border-radius: 6px;
           border: 1px solid #dee2e6;
         }
         
-        .minify-data-card strong {
-          display: block;
-          margin-bottom: 5px;
+        .data-card-title {
+          font-weight: 600;
+          margin-bottom: 8px;
           color: #333;
         }
         
-        .minify-data-card-detail {
-          font-size: 12px;
+        .data-card-detail {
+          font-size: 13px;
           color: #666;
-          margin-top: 5px;
+          margin: 4px 0;
         }
         
-        .devtools-section {
+        .measurement-section {
           margin-top: 40px;
           padding: 25px;
           background-color: #fff3cd;
@@ -309,17 +255,17 @@ function MinifyAssets() {
           border: 2px solid #ffc107;
         }
         
-        .devtools-section h4 {
+        .measurement-section h4 {
           margin-top: 0;
           color: #856404;
         }
         
-        .devtools-section ul {
+        .measurement-section ul {
           margin: 15px 0;
           line-height: 1.8;
         }
         
-        .devtools-section code {
+        .measurement-section code {
           background-color: #263238;
           color: #aed581;
           padding: 2px 6px;
@@ -328,103 +274,102 @@ function MinifyAssets() {
         }
       `}</style>
 
-      <div className="minify-instructions">
-        <h3>📋 Testing Instructions</h3>
+      <div className="instructions-box">
+        <h3>📋 How to Test This Pattern</h3>
         <ol>
-          <li><strong>Step 1 - Dev Mode:</strong> Run <code>npm run dev</code>, open DevTools Network tab, refresh this page, note main JS bundle size</li>
-          <li><strong>Step 2 - Prod Mode:</strong> Run <code>npm run build</code> then <code>npm run preview</code>, refresh this page, note main JS bundle size</li>
-          <li><strong>Step 3 - Compare:</strong> Production bundle should be 60-75% smaller. Measure with powermetrics for energy impact.</li>
+          <li>
+            <strong>Development Mode (Unminified):</strong><br/>
+            Run <code>npm run dev</code>, open this page, open DevTools → Network tab<br/>
+            Look for: <span className="file-highlight">index-[hash].js</span> (main bundle) - note the file size
+          </li>
+          <li>
+            <strong>Production Build (Minified):</strong><br/>
+            Run <code>npm run build</code> then <code>npm run preview</code>, open this page<br/>
+            Look for: <span className="file-highlight">index-[hash].js</span> (same file) - note the NEW size
+          </li>
+          <li>
+            <strong>Compare Results:</strong><br/>
+            Production bundle should be <strong>60-75% smaller</strong>. Use powermetrics to measure CPU energy savings.
+          </li>
         </ol>
+        
+        <div style={{ marginTop: '20px', padding: '15px', backgroundColor: '#e8f5e9', borderRadius: '6px', border: '1px solid #4caf50' }}>
+          <strong style={{ color: '#2e7d32' }}>💡 Which File to Look For:</strong>
+          <p style={{ margin: '8px 0 0 0', color: '#1b5e20' }}>
+            In the Network tab, find the file named something like: <code style={{ backgroundColor: '#1b5e20', color: '#a5d6a7' }}>index-a1b2c3d4.js</code><br/>
+            The hash (a1b2c3d4) will be different each time, but it starts with "index-" and is the largest JS file.
+          </p>
+        </div>
       </div>
 
       <div className="explanation-section">
-        <h3>What's Being Tested</h3>
+        <h3>What Gets Minified</h3>
         <div className="explanation-grid">
           <div className="explanation-item">
-            <strong>📝 Development Mode (Unminified)</strong>
+            <strong>📝 Development Mode</strong>
             <p>
-              All code has long variable names (<code>calculateArrayStatistics</code>), 
-              extensive comments, whitespace, and readable formatting. 
-              Bundle size: ~500KB+
+              Variable names: <code>generateSampleDataArray</code>, <code>sampleDataArray</code>, <code>itemIndex</code><br/>
+              Comments: All the <code>/* comments */</code> are preserved<br/>
+              Whitespace: Readable indentation and line breaks<br/>
+              <strong>Result:</strong> Large, readable bundle (~500KB+)
             </p>
           </div>
           <div className="explanation-item">
-            <strong>⚡ Production Build (Minified)</strong>
+            <strong>⚡ Production Build</strong>
             <p>
-              Code transformed with short variable names (<code>a</code>, <code>b</code>), 
-              no comments, no whitespace, optimized. 
-              Bundle size: ~150KB (60-75% reduction)
+              Variable names: <code>a</code>, <code>b</code>, <code>c</code> (shortened)<br/>
+              Comments: All removed<br/>
+              Whitespace: All removed (one long line)<br/>
+              <strong>Result:</strong> Small, compact bundle (~150KB - 70% smaller!)
             </p>
           </div>
         </div>
       </div>
 
-      <div className="demo-section">
-        <h3>Sample Functionality</h3>
-        <p style={{ marginBottom: '20px', color: '#666' }}>
-          This page includes typical React code (state management, event handlers, data processing) 
-          with verbose function and variable names that will be minified in production:
-        </p>
-        
-        <button className="minify-button" onClick={calculateArrayStatistics}>
-          Calculate Statistics (verbose function: calculateArrayStatistics)
-        </button>
-
-        {calculationResult && (
-          <div className="minify-result">
-            <h4>Calculation Results</h4>
-            <div className="result-grid">
-              <div className="result-item">
-                <div className="result-label">Sum</div>
-                <div className="result-value">{calculationResult.sum}</div>
-              </div>
-              <div className="result-item">
-                <div className="result-label">Average</div>
-                <div className="result-value">{calculationResult.average.toFixed(1)}</div>
-              </div>
-              <div className="result-item">
-                <div className="result-label">Maximum</div>
-                <div className="result-value">{calculationResult.maximum}</div>
-              </div>
-              <div className="result-item">
-                <div className="result-label">Minimum</div>
-                <div className="result-value">{calculationResult.minimum}</div>
-              </div>
-              <div className="result-item">
-                <div className="result-label">Count</div>
-                <div className="result-value">{calculationResult.count}</div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <h4 style={{ marginTop: '40px' }}>Generated Data Sample ({sampleData.length} total items)</h4>
+      <div className="data-section">
+        <h3>Sample Data Display</h3>
         <p style={{ color: '#666', marginBottom: '15px' }}>
-          Generated by <code>generateSampleDataArray()</code> function with verbose property names
+          This page generates and displays data using verbose function names 
+          (<code>generateSampleDataArray</code>, <code>filterActiveItems</code>) 
+          that will be minified in production builds.
         </p>
-        <div className="minify-data-grid">
-          {sampleData.slice(0, 12).map(item => (
-            <div key={item.identifier} className="minify-data-card">
-              <strong>{item.description}</strong>
-              <div className="minify-data-card-detail">
-                Category: {item.category}
+        <p style={{ color: '#666', marginBottom: '15px' }}>
+          <strong>Total items:</strong> {allSampleData.length} | <strong>Active items:</strong> {activeItemsOnly.length}
+        </p>
+        <div className="data-grid">
+          {activeItemsOnly.slice(0, 9).map(function(currentItem) {
+            return (
+              <div key={currentItem.identifier} className="data-card">
+                <div className="data-card-title">
+                  {currentItem.description}
+                </div>
+                <div className="data-card-detail">
+                  Category: {currentItem.category}
+                </div>
+                <div className="data-card-detail">
+                  ID: {currentItem.identifier}
+                </div>
+                <div className="data-card-detail">
+                  Status: Active
+                </div>
               </div>
-              <div className="minify-data-card-detail">
-                ID: {item.identifier}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
-      <div className="devtools-section">
-        <h4>📊 What to Measure</h4>
+      <div className="measurement-section">
+        <h4>📊 Expected Results</h4>
         <ul>
-          <li><strong>Network Tab:</strong> Find main JS bundle (e.g., <code>index-abc123.js</code>) and compare file sizes between dev and prod</li>
-          <li><strong>Bundle Contents:</strong> In prod, variable names like <code>calculateArrayStatistics</code> become <code>c</code>, <code>sampleDataArray</code> becomes <code>a</code></li>
-          <li><strong>Powermetrics:</strong> Measure CPU energy during page load - smaller bundles = less parsing work</li>
-          <li><strong>Expected Savings:</strong> 60-75% reduction in bundle size, faster parse time, lower energy consumption</li>
+          <li><strong>Bundle Size Reduction:</strong> 60-75% smaller in production</li>
+          <li><strong>Parse Time:</strong> Faster (less text to process)</li>
+          <li><strong>Network Transfer:</strong> Less data downloaded</li>
+          <li><strong>Energy Consumption:</strong> Lower CPU usage during parsing</li>
         </ul>
+        <p style={{ marginTop: '15px', color: '#856404' }}>
+          <strong>Note:</strong> This is a build-time optimization, not something that can be fixed in source code. 
+          The pattern is: "Always deploy production builds, never development builds."
+        </p>
       </div>
     </div>
   );
