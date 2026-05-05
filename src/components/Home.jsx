@@ -111,14 +111,14 @@ function Home() {
     <div className="home">
       <div className="home-content">
         <header className="home-header">
-          <h1>🌱 Green Software Patterns Testing Suite</h1>
+          <h1>🌱 Green Software Patterns Test Suite</h1>
           <p className="subtitle">
             Test each pattern individually with toggle switches to compare optimized vs unoptimized performance
           </p>
         </header>
 
         <section className="info-section">
-          <h2>How to Use This Testing Suite</h2>
+          <h2>How to Use This Test Suite</h2>
           <div className="instructions">
             <div className="instruction-item">
               <span className="step-number">1</span>

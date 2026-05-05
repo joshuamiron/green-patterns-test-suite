@@ -1,4 +1,4 @@
-# Green Software Patterns - Isolated Testing Suite (Vite + React 18)
+# Green Software Patterns Test Suite (Vite + React 18)
 
 A modern React 18 application built with **Vite** for testing each [Green Software Foundation](https://patterns.greensoftware.foundation/catalog/web/) pattern individually with toggle switches to compare optimized vs unoptimized performance.
 
