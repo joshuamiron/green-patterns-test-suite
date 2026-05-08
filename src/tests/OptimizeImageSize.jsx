@@ -13,23 +13,23 @@ function OptimizeImageSize() {
   // Log performance after 5 seconds
   usePerformanceLogging(optimized, 'OptimizeImageSize', 5000);
 
-  const images = Array.from({ length: 12 }, (_, i) => {
-    // Use specific image IDs: 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200
-    const imageId = 100 + (i * 100);
-    
-    return {
-      id: i + 1,
-      // Optimized: right-sized (400×300), Unoptimized: oversized (2000×1500)
-      url: optimized 
-        ? `https://picsum.photos/id/${imageId}/400/300?t=${cacheBuster}`
-        : `https://picsum.photos/id/${imageId}/2000/1500?t=${cacheBuster}`
-    };
-  });
+const images = Array.from({ length: 12 }, (_, i) => {
+  // Start at ID 10 and go up (most low IDs exist)
+  const imageId = 10 + i;
+  
+  return {
+    id: i + 1,
+    url: optimized 
+      ? `https://picsum.photos/id/${imageId}/400/300?t=${cacheBuster}`
+      : `https://picsum.photos/id/${imageId}/2000/1500?t=${cacheBuster}`
+  };
+});
 
-  const perImageSavings = optimized ? 0 : 90; // ~90% savings per image
+  const perImageSavings = 90; // ~90% savings per image
   const totalUnoptimized = 12 * 500; // ~6000KB
   const totalOptimized = 12 * 50;    // ~600KB
-  const totalSavings = optimized ? 0 : ((totalUnoptimized - totalOptimized) / totalUnoptimized * 100).toFixed(0);
+  const savingsMB = ((totalUnoptimized - totalOptimized) / 1024).toFixed(1);
+  const savingsPercent = ((totalUnoptimized - totalOptimized) / totalUnoptimized * 100).toFixed(0);
 
   return (
     <TestContainer
@@ -41,7 +41,7 @@ function OptimizeImageSize() {
       metrics={{
         'Per Image': optimized ? '~50KB (400×300)' : '~500KB (2000×1500)',
         'Total Transfer': optimized ? '~600KB' : '~6MB',
-        'Savings': optimized ? '0%' : `${totalSavings}% (~${((totalUnoptimized - totalOptimized) / 1024).toFixed(1)}MB saved)`
+        'Savings Achieved': optimized ? `${savingsPercent}% (~${savingsMB}MB saved)` : '0% (not optimized)'
       }}
     >
       <div className="test-explanation">
