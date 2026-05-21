@@ -172,7 +172,7 @@ function Home() {
         </section>
 
         <section className="tips-section">
-          <h2>💡 Testing Tips</h2>
+          <h2>Testing Tips</h2>
           <ul>
             <li>
               <strong>Network Tab:</strong> Monitor file sizes, request counts, and loading times
