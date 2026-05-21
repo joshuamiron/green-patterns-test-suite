@@ -136,7 +136,6 @@ green-patterns-vite/
 
 ### Network Tab
 
-```text
 1. Open DevTools (F12)
 2. Click "Network" tab
 3. Check "Disable cache"
@@ -144,11 +143,9 @@ green-patterns-vite/
 5. Note: requests, size, time
 6. Toggle optimization **ON**
 7. Reload and compare!
-```
 
 ### Performance Tab
 
-```text
 1. Click "Performance" tab
 2. Click Record (⚫)
 3. Interact with page
@@ -157,16 +154,13 @@ green-patterns-vite/
    - Main thread work
    - Layout/Paint times
    - Long tasks (>50ms)
-```
 
 ### Lighthouse Audit
 
-```text
 1. Click "Lighthouse" tab
 2. Select "Performance" category
-3. Run with optimization OFF → note score
-4. Run with optimization ON → compare!
-```
+3. Run with optimization **OFF** → note score
+4. Run with optimization **ON** → compare!
 
 ## Resources
 
@@ -220,8 +214,6 @@ export default MyPattern;
 - No backend required
 - Works offline after initial load
 - Fully responsive
-
----
 
 Built with ⚡ Vite + ⚛️ React 18 to test 🌱 Green Software patterns
 
