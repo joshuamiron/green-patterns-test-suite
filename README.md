@@ -1,16 +1,8 @@
-# Green Software Patterns Test Suite (Vite + React 18)
+# 🌱 Green Software Patterns Test Suite (Vite + React 18)
 
 A modern React 18 application built with **Vite** for testing each [Green Software Foundation](https://patterns.greensoftware.foundation/catalog/web/) pattern individually with toggle switches to compare optimized vs unoptimized performance.
 
-## 🚀 Why Vite?
-
-- ✅ **Fast**: Lightning-fast HMR (Hot Module Replacement)
-- ✅ **Modern**: Uses native ES modules
-- ✅ **React 18**: Latest React version with concurrent features
-- ✅ **No CRA**: CRA is deprecated, Vite is the modern standard
-- ✅ **Smaller Bundles**: Better for testing green patterns!
-
-## 📦 Quick Start
+## Quick Start
 
 ```bash
 # Install dependencies
@@ -26,17 +18,19 @@ npm run build
 npm run preview
 ```
 
-## 🌱 What's Included
+## What's Included
 
-**12 Individual Test Pages** - one for each Green Software Foundation pattern:
+### 12 Individual Test Pages
 
-### ✅ Fully Interactive Tests
+### Fully Interactive Tests
+
 1. **Defer Offscreen Images** - Lazy loading vs eager loading
 2. **Avoid Excessive DOM Size** - Flat vs nested DOM structures  
 3. **Optimize Image Size** - Properly sized vs oversized images
 4. **Keep Request Counts Low** - Bundled vs separate requests
 
-### 🔧 Placeholder Tests (Ready to Expand)
+### Placeholder Tests (Ready to Expand)
+<!-- TODO: Update this list of placeholders -->
 5. Minimize Main Thread Work
 6. Avoid Chaining Critical Requests
 7. Enable Text Compression
@@ -46,16 +40,16 @@ npm run preview
 11. Minify Web Assets
 12. Avoid Tracking Unnecessary Data
 
-## 🧪 How to Test Each Pattern
+## How to Test Each Pattern
 
 ### Basic Workflow
 
-1. **Start the app**: `npm run dev`
-2. **Navigate to a test page** from the home screen
-3. **Open Chrome DevTools** (F12)
-4. **Go to Network tab** and clear it
-5. **Toggle optimization ON/OFF**
-6. **Observe the differences** in:
+1. Start the app: `npm run dev`
+2. Navigate to a test page from the home screen
+3. Open Chrome DevTools **(F12)**
+4. Go to Network tab and clear it 🚫
+5. Toggle optimization **ON** or **OFF**
+6. **Observe the differences in:**
    - Request count and sizes
    - Load times
    - Resource waterfall
@@ -74,7 +68,7 @@ npm run preview
    - ~250KB transferred
    - More images load as you scroll
 
-## 📊 Key Metrics to Measure
+## Key Metrics to Measure
 
 | Metric | Where to Check | Tool |
 |--------|---------------|------|
@@ -85,26 +79,29 @@ npm run preview
 | **Memory Usage** | Memory profiler | DevTools |
 | **CPU Usage** | Performance tab | DevTools |
 
-## 🎯 Expected Results
+## Expected Results
 
 ### Defer Offscreen Images
+
 - **OFF**: 30 requests, ~1.5MB, all load immediately
 - **ON**: 5-10 requests, ~250KB, load on scroll
 - **Savings**: ~80% initial bandwidth
 
 ### Avoid Excessive DOM  
+
 - **OFF**: ~2000 nodes, higher memory
 - **ON**: ~800 nodes, lower memory
 - **Savings**: ~60% fewer nodes
 
 ### Optimize Image Size
+
 - **OFF**: ~6MB (oversized images)
 - **ON**: ~600KB (right-sized images)  
 - **Savings**: ~90% data reduction
 
-## 🛠️ Project Structure
+## Project Structure
 
-```
+```text
 green-patterns-vite/
 ├── index.html              # Entry HTML (Vite serves from root)
 ├── vite.config.js          # Vite configuration
@@ -123,38 +120,37 @@ green-patterns-vite/
 └── README.md
 ```
 
-## 💡 Vite-Specific Features
+## ⚡ Why Vite?
 
-### Fast Refresh
-Changes appear instantly - no full page reload!
+- ✅ **Fast**: Lightning-fast HMR (Hot Module Replacement)
+- ✅ **Modern**: Uses native ES modules
+- ✅ **React 18**: Latest React version with concurrent features
+- ✅ **No CRA**: CRA is deprecated, Vite is the modern standard
+- ✅ **Smaller Bundles**: Production build is automatically optimized with:
+  - Code splitting
+  - Tree shaking  
+  - Minification
+  - Asset optimization
 
-### ES Modules
-Vite uses native ES modules for faster dev builds.
-
-### Optimized Build
-Production build is automatically optimized with:
-- Code splitting
-- Tree shaking  
-- Minification
-- Asset optimization
-
-## 🧰 DevTools Testing Guide
+## DevTools Testing Guide
 
 ### Network Tab
-```
+
+```text
 1. Open DevTools (F12)
 2. Click "Network" tab
 3. Check "Disable cache"
-4. Reload page with optimization OFF
+4. Reload page with optimization **OFF**
 5. Note: requests, size, time
-6. Toggle optimization ON
+6. Toggle optimization **ON**
 7. Reload and compare!
 ```
 
 ### Performance Tab
-```
+
+```text
 1. Click "Performance" tab
-2. Click Record (●)
+2. Click Record (⚫)
 3. Interact with page
 4. Stop recording
 5. Analyze:
@@ -164,21 +160,22 @@ Production build is automatically optimized with:
 ```
 
 ### Lighthouse Audit
-```
+
+```text
 1. Click "Lighthouse" tab
 2. Select "Performance" category
 3. Run with optimization OFF → note score
 4. Run with optimization ON → compare!
 ```
 
-## 📚 Resources
+## Resources
 
 - [Vite Documentation](https://vitejs.dev/)
 - [React 18 Docs](https://react.dev/)
 - [Green Software Patterns](https://patterns.greensoftware.foundation/catalog/web/)
 - [Chrome DevTools](https://developer.chrome.com/docs/devtools/)
 
-## 🔄 Extending Tests
+## Extending Tests
 
 Each test follows the same pattern. To enhance a placeholder test:
 
@@ -206,18 +203,18 @@ function MyPattern() {
 export default MyPattern;
 ```
 
-## 🆚 Vite vs Create React App
+## Vite vs Create React App
 
-| Feature | Vite | CRA |
+| Feature | Vite | Create React App |
 |---------|------|-----|
-| **Status** | ✅ Active | ❌ Deprecated |
+| **Status** | 🟢 Active | 🔴 [Deprecated](https://create-react-app.dev/docs/getting-started/) |
 | **Dev Start** | ~100ms | ~5s |
-| **HMR** | Instant | Slow |
+| **Hot Module Replacement** | Instant | Slow |
 | **React Version** | 18.3+ | 18.2 |
 | **Bundle Size** | Smaller | Larger |
 | **Build Tool** | Rollup | Webpack |
 
-## 📝 Notes
+## Notes
 
 - Uses [Picsum Photos](https://picsum.photos/) for placeholder images
 - No backend required
