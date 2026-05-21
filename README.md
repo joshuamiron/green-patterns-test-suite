@@ -47,7 +47,7 @@ npm run preview
 1. Start the app: `npm run dev`
 2. Navigate to a test page from the home screen
 3. Open Chrome DevTools **(F12)**
-4. Go to Network tab and clear it 🚫
+4. Go to Network tab and clear it (🚫)
 5. Toggle optimization **ON** or **OFF**
 6. **Observe the differences in:**
    - Request count and sizes
