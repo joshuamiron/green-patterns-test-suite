@@ -22,7 +22,7 @@ function App() {
       <div className="App">
         <nav className="main-nav">
           <div className="nav-content">
-            <Link to="/" className="nav-brand">🌱 Green Patterns Testing</Link>
+            <Link to="/" className="nav-brand">Green Patterns Test Suite</Link>
             <div className="nav-links">
               <a 
                 href="https://patterns.greensoftware.foundation/catalog/web/" 
@@ -30,7 +30,7 @@ function App() {
                 rel="noopener noreferrer"
                 className="nav-link-external"
               >
-                📚 Documentation
+                Documentation
               </a>
             </div>
           </div>

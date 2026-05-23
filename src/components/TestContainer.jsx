@@ -15,8 +15,8 @@ function TestContainer({
     <div className="test-container">
       <div className="test-content">
         <div className="test-header">
-          <Link to="/" className="back-link">← Back to All Tests</Link>
-          <h1>{title}</h1>
+          <Link to="/" className="back-link">← Back to all tests</Link>
+          <h1>🌱 {title}</h1>
           <p className="test-description">{description}</p>
           {patternUrl && (
             <a 
@@ -25,7 +25,7 @@ function TestContainer({
               rel="noopener noreferrer"
               className="docs-link"
             >
-              📚 Read Pattern Documentation
+              Read Pattern Documentation
             </a>
           )}
         </div>
@@ -34,7 +34,7 @@ function TestContainer({
           <div className="toggle-control">
             <label className="toggle-label">
               <span className="toggle-text">
-                {optimized ? '✅ Optimization ON' : '❌ Optimization OFF'}
+                {optimized ? '🟢 Optimization ON' : '🔴 Optimization OFF'}
               </span>
               <div className="toggle-switch">
                 <input 
@@ -57,7 +57,7 @@ function TestContainer({
 
         {metrics && (
           <div className="metrics-panel">
-            <h3>📊 Current Metrics</h3>
+            <h3>Metrics</h3>
             <div className="metrics-grid">
               {Object.entries(metrics).map(([key, value]) => (
                 <div key={key} className="metric-item">
@@ -74,7 +74,7 @@ function TestContainer({
         </div>
 
         <div className="testing-instructions">
-          <h3>🧪 How to Test This Pattern</h3>
+          <h3>How to test this pattern</h3>
           <ol>
             <li>Open Chrome DevTools (F12 or Cmd/Ctrl + Option/Alt + I)</li>
             <li>Go to the <strong>Network</strong> tab and clear it</li>

@@ -83,14 +83,14 @@ function DeferOffscreenImages() {
       metrics={metrics}
     >
       <div className="test-explanation">
-        <h3>What's Being Tested</h3>
+        <h3>What's being tested</h3>
         <div className="explanation-grid">
           <div className="explanation-item">
-            <strong>❌ Optimization OFF (Eager Loading):</strong>
+            <strong>🔴 Optimization OFF (Eager Loading):</strong>
             <p>All 30 images load immediately when the page loads, even those far below the fold. This uses more bandwidth and CPU upfront.</p>
           </div>
           <div className="explanation-item">
-            <strong>✅ Optimization ON (Lazy Loading):</strong>
+            <strong>🟢 Optimization ON (Lazy Loading):</strong>
             <p>Images load only as you scroll near them. This saves bandwidth, reduces initial page load time, and improves performance.</p>
           </div>
         </div>
@@ -122,7 +122,7 @@ function DeferOffscreenImages() {
       </div>
 
       <div className="devtools-tips">
-        <h4>💡 What to Check in DevTools</h4>
+        <h4>What to check in DevTools</h4>
         <ul>
           <li><strong>Network Tab:</strong> With optimization OFF, see all images load immediately. With ON, images load as you scroll.</li>
           <li><strong>Performance:</strong> Record while scrolling. Optimized version should show less initial work.</li>
