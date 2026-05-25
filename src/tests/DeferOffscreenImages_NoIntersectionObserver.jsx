@@ -27,7 +27,7 @@ function DeferOffscreenImagesNative() {
 
   return (
     <TestContainer
-      title="Defer Offscreen Images (Native)"
+      title="Defer Offscreen Images (no IntersectionObserver)"
       description="Compare native browser lazy loading vs eager loading - simplified version using ONLY loading attribute."
       patternUrl="https://patterns.greensoftware.foundation/catalog/web/defer-offscreen-images"
       optimized={optimized}

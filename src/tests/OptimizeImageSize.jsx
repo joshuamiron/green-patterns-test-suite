@@ -33,7 +33,7 @@ const images = Array.from({ length: 12 }, (_, i) => {
 
   return (
     <TestContainer
-      title="Properly Size Images"
+      title="Optimize Image Size"
       description="Serve images at their actual display size, not oversized versions that get scaled down."
       patternUrl="https://patterns.greensoftware.foundation/catalog/web/properly-sized-images"
       optimized={optimized}
@@ -48,11 +48,11 @@ const images = Array.from({ length: 12 }, (_, i) => {
         <h3>What's Being Tested</h3>
         <div className="explanation-grid">
           <div className="explanation-item">
-            <strong>❌ Unoptimized (Oversized):</strong>
+            <strong>🔴 Unoptimized (Oversized):</strong>
             <p>Loading 2000×1500px images (500KB each) but displaying them at 400×300px. Downloads and decodes 25× more pixels than needed - wastes 96% of each image!</p>
           </div>
           <div className="explanation-item">
-            <strong>✅ Optimized (Properly Sized):</strong>
+            <strong>🟢 Optimized (Properly Sized):</strong>
             <p>Loading 400×300px images (50KB each) - exactly the display size. No wasted bandwidth, no unnecessary decoding work. ~90% file size reduction per image.</p>
           </div>
         </div>
@@ -65,7 +65,7 @@ const images = Array.from({ length: 12 }, (_, i) => {
         borderRadius: '8px',
         border: optimized ? '2px solid #4caf50' : '2px solid #f44336'
       }}>
-        <h4>Current Configuration: {optimized ? 'Properly Sized ✅' : 'Oversized ❌'}</h4>
+        <h4>Current Configuration: {optimized ? 'Properly Sized 🟢' : 'Oversized 🔴'}</h4>
         <div style={{ marginTop: '15px' }}>
           <div style={{ marginBottom: '10px' }}>
             <strong>Image Dimensions:</strong> {optimized ? '400×300px (matches display)' : '2000×1500px (scaled down to 400×300px)'}
@@ -77,9 +77,9 @@ const images = Array.from({ length: 12 }, (_, i) => {
             <strong>Total for 12 Images:</strong> <span style={{ color: optimized ? '#2e7d32' : '#c62828', fontWeight: 'bold' }}>{optimized ? '~600KB' : '~6MB'}</span>
           </div>
           {!optimized && (
-            <div style={{ marginTop: '15px', padding: '10px', backgroundColor: '#fff3cd', borderRadius: '6px' }}>
-              <strong style={{ color: '#856404' }}>⚠️ Waste per Image:</strong>
-              <ul style={{ margin: '8px 0', paddingLeft: '20px', color: '#856404' }}>
+            <div style={{ marginTop: '15px', padding: '10px', backgroundColor: '#fff', borderRadius: '6px' }}>
+              <strong style={{ color: '#000' }}>Waste per Image:</strong>
+              <ul style={{ margin: '8px 0', paddingLeft: '20px', color: '#000' }}>
                 <li>Downloaded: 3,000,000 pixels (2000×1500)</li>
                 <li>Displayed: 120,000 pixels (400×300)</li>
                 <li>Wasted: 2,880,000 pixels (96% thrown away!)</li>
@@ -99,14 +99,14 @@ const images = Array.from({ length: 12 }, (_, i) => {
               style={{ width: '400px', height: '300px' }}
             />
             <span className="image-label">
-              {optimized ? '✅ 400×300px' : `❌ 2000×1500px → 400×300px`}
+              {optimized ? '🟢 400×300px' : `🔴 2000×1500px → 400×300px`}
             </span>
           </div>
         ))}
       </div>
-
+<br></br>
       <div className="devtools-tips">
-        <h4>💡 What to Check</h4>
+        <h4>What to check</h4>
         <ul>
           <li><strong>Network Tab:</strong> Look for the picsum.photos requests - compare sizes (~500KB vs ~50KB each)</li>
           <li><strong>Total Transfer:</strong> Check bottom of Network tab - should show ~6MB unoptimized, ~600KB optimized (~90% savings)</li>
@@ -116,7 +116,7 @@ const images = Array.from({ length: 12 }, (_, i) => {
       </div>
 
       <div style={{ marginTop: '30px', padding: '20px', backgroundColor: '#e3f2fd', borderRadius: '8px', border: '2px solid #2196f3' }}>
-        <h4>🔧 How to Fix in Production</h4>
+        <h4>How to Fix in Production</h4>
         <p style={{ marginBottom: '15px' }}>Use responsive images with <code>srcset</code> to serve appropriate sizes:</p>
         <pre style={{ 
           backgroundColor: '#263238', 
