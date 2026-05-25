@@ -66,18 +66,18 @@ function AvoidExcessiveDOM() {
         <h3>What's Being Tested</h3>
         <div className="explanation-grid">
           <div className="explanation-item">
-            <strong>❌ Unoptimized (Deep Nesting):</strong>
+            <strong>🔴 Unoptimized (Deep Nesting):</strong>
             <p>Each item has 7+ levels of nested divs. This increases memory usage, slows down rendering, and makes the browser work harder.</p>
           </div>
           <div className="explanation-item">
-            <strong>✅ Optimized (Flat Structure):</strong>
+            <strong>🟢 Optimized (Flat Structure):</strong>
             <p>Same functionality with minimal nesting (2-3 levels). Faster rendering, less memory, better performance.</p>
           </div>
         </div>
       </div>
 
       <div className="dom-container">
-        <div className="dom-stats">
+        {/*<div className="dom-stats">
           <div className="dom-stat-item">
             <span className="dom-stat-label">Total Nodes</span>
             <span className="dom-stat-value">{metrics['DOM Nodes']}</span>
@@ -90,7 +90,7 @@ function AvoidExcessiveDOM() {
             <span className="dom-stat-label">Memory</span>
             <span className="dom-stat-value" style={{fontSize: '1.2rem'}}>{metrics['Memory']}</span>
           </div>
-        </div>
+        </div>*/}
         
         <h4 style={{marginBottom: '15px'}}>200 Items Rendered:</h4>
         <div style={{maxHeight: '400px', overflow: 'auto', padding: '10px', background: '#f8f9fa', borderRadius: '6px'}}>
@@ -99,7 +99,7 @@ function AvoidExcessiveDOM() {
       </div>
 
       <div className="devtools-tips">
-        <h4>💡 What to Check in DevTools</h4>
+        <h4>What to Check in DevTools</h4>
         <ul>
           <li><strong>Performance Tab:</strong> Record rendering. Optimized version should have faster layout times.</li>
           <li><strong>Memory Profiler:</strong> Take heap snapshots with optimization ON vs OFF.</li>
